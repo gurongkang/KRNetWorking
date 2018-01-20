@@ -61,6 +61,10 @@
     return self;
 }
 
+- (NSDictionary *)buildParameters:(NSDictionary *)parameters {
+     return [NSDictionary dictionary];
+}
+
 - (void)httpGet:(NSString *)url
      parameters:(NSDictionary *)parameters
     showLoading:(BOOL)isShow
@@ -104,6 +108,73 @@
     }];
 }
 
+- (void)httpPost:(NSString *)url
+      parameters:(NSDictionary *)parameters
+     showLoading:(BOOL)isShow
+         success:(KRSuccess)krSuccess
+         failure:(KRFailure)krFailure{
+    self.config.enableLoading = isShow;
+    [self httpPost:url parameters:parameters success:krSuccess failure:krFailure];
+}
+
+- (void)httpPost:(NSString *)url
+      parameters:(NSDictionary *)parameters
+         success:(KRSuccess)krSuccess
+         failure:(KRFailure)krFailure {
+    
+    if (!url.length)
+        return;
+    self.apiUrl = url;
+    
+    if (self.config.enableLoading) {
+        [MBProgressHUD showHUDAddedTo: [UIApplication sharedApplication].keyWindow animated:YES];
+    }
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        [self printUrl:self.fullUrl paramters:parameters];
+        
+        [_sessionManager POST:self.fullUrl parameters:[self buildParameters:parameters] progress:nil success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
+            
+            //加载菊花
+            if (self.config.enableLoading) {
+                [MBProgressHUD hideHUDForView: [UIApplication sharedApplication].keyWindow animated:YES];
+            }
+            
+            //返回请求值
+            if (krSuccess) {
+                krSuccess(responseObject);
+            }
+            
+            //打印请求
+            [self printResponse:responseObject url:url paramters:parameters];
+            
+        } failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+            if (self.config.enableLoading) {
+                [MBProgressHUD hideHUDForView: [UIApplication sharedApplication].keyWindow animated:YES];
+            }
+            
+            if (krFailure) {
+                krFailure(error);
+            }
+        }];
+    });
+}
+
+
+/**
+ 打印请求
+ 
+ @param url 请求url
+ */
+- (void)printUrl:(NSString *)url paramters:(NSDictionary *)paramters{
+    if (self.config.printUrl) {
+        NSString *queryStr = [NSURL kr_queryStringFromDictionry:paramters];
+        NSString *fullUrl = [NSString stringWithFormat:@"%@?%@", url, queryStr];
+        NSLog(@"请求 %@", fullUrl);
+    }
+}
+
 /**
  打印返回值
  
@@ -114,7 +185,7 @@
     if (self.config.printUrl) {
         NSString *queryStr = [NSURL kr_queryStringFromDictionry:paramters];
         NSString *fullUrl = [NSString stringWithFormat:@"%@?%@", url, queryStr];
-        NSLog(@"返回值 %@", response);
+        NSLog(@"%@ 返回值 %@",fullUrl, response);
     }
 }
 
