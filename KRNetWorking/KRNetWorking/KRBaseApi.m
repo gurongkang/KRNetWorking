@@ -8,21 +8,32 @@
 
 #import "KRBaseApi.h"
 
-@interface KRBaseApiConfig : NSObject
+@implementation KRBaseApiConfig
 
-/**
- *  DEBUG模式下，是否打印请求url
- *  @warning 此参数仅在DEBUG模式下可以打开，RELEASE模式下设置此参数无效
- */
-@property (nonatomic, assign) BOOL printUrl;
++ (instancetype)config {
+    KRBaseApiConfig *config = [[self class]new];
+    return config;
+}
 
-/**
- 是否启用加载菊花 YES 是 NO否
- */
-@property (nonatomic, assign) BOOL enableLoading;
+- (instancetype)init {
+    if (self = [super init]) {
+        self.printUrl = NO;
+    }
+    return self;
+}
+
+- (void)setPrintUrl:(BOOL)printUrl {
+#if DEBUG
+    _printUrl = printUrl;
+#else
+    _printUrl = NO;
+#endif
+}
 
 @end
 
 @implementation KRBaseApi
+
+
 
 @end
