@@ -16,6 +16,7 @@
 		54523AF8201382F2000103E0 /* KRNetWorkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54523AF7201382F2000103E0 /* KRNetWorkingTests.m */; };
 		54523B03201382F3000103E0 /* KRNetWorkingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54523B02201382F3000103E0 /* KRNetWorkingUITests.m */; };
 		54523B132013852F000103E0 /* KRBaseApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 54523B122013852F000103E0 /* KRBaseApi.m */; };
+		54523B1620139DC9000103E0 /* NSURL+KR.m in Sources */ = {isa = PBXBuildFile; fileRef = 54523B1520139DC9000103E0 /* NSURL+KR.m */; };
 		A4D1E08EB26AEB50BE231CCF /* libPods-KRNetWorking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A9109458E9286F4ADF565B /* libPods-KRNetWorking.a */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,8 @@
 		54523B04201382F3000103E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54523B112013852F000103E0 /* KRBaseApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KRBaseApi.h; sourceTree = "<group>"; };
 		54523B122013852F000103E0 /* KRBaseApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KRBaseApi.m; sourceTree = "<group>"; };
+		54523B1420139DC9000103E0 /* NSURL+KR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+KR.h"; sourceTree = "<group>"; };
+		54523B1520139DC9000103E0 /* NSURL+KR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURL+KR.m"; sourceTree = "<group>"; };
 		881DB41C0847EAFD57F05364 /* Pods-KRNetWorking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KRNetWorking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KRNetWorking/Pods-KRNetWorking.debug.xcconfig"; sourceTree = "<group>"; };
 		F4A9109458E9286F4ADF565B /* libPods-KRNetWorking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KRNetWorking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -156,6 +159,8 @@
 			children = (
 				54523B112013852F000103E0 /* KRBaseApi.h */,
 				54523B122013852F000103E0 /* KRBaseApi.m */,
+				54523B1420139DC9000103E0 /* NSURL+KR.h */,
+				54523B1520139DC9000103E0 /* NSURL+KR.m */,
 			);
 			path = KRNetWorking;
 			sourceTree = "<group>";
@@ -353,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54523B1620139DC9000103E0 /* NSURL+KR.m in Sources */,
 				54523B132013852F000103E0 /* KRBaseApi.m in Sources */,
 				54523AE3201382F2000103E0 /* ViewController.m in Sources */,
 				54523AEE201382F2000103E0 /* main.m in Sources */,

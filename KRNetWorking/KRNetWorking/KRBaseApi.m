@@ -7,6 +7,10 @@
 //
 
 #import "KRBaseApi.h"
+#import "NSURL+KR.h"
+#import <AFNetworking/AFNetworking.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <APToast/UIView+APToast.h>
 
 @implementation KRBaseApiConfig
 
@@ -32,8 +36,86 @@
 
 @end
 
+@interface KRBaseApi()
+
+@property (nonatomic, strong) AFHTTPSessionManager *sessionManager;
+
+@end
+
 @implementation KRBaseApi
 
++ (instancetype)api {
+    id api = [[self class] new];
+    return api;
+}
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _sessionManager = [AFHTTPSessionManager manager];
+        _sessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+        [_sessionManager.requestSerializer setTimeoutInterval:8];
+        _sessionManager.responseSerializer = [AFJSONResponseSerializer serializer];
+        _config = [KRBaseApiConfig config];
+    }
+    return self;
+}
+
+- (void)httpGet:(NSString *)url
+     parameters:(NSDictionary *)parameters
+    showLoading:(BOOL)isShow
+        success:(KRSuccess)krSuccess
+        failure:(KRFailure)krFailure {
+    self.config.enableLoading = isShow;
+    [self httpGet:url parameters:parameters success:krSuccess failure:krFailure];
+}
+
+- (void)httpGet:(NSString *)url
+     parameters:(NSDictionary *)parameters
+        success:(KRSuccess)krSuccess
+        failure:(KRFailure)krFailure {
+    if (!url.length)
+        return;
+    
+    if (self.config.enableLoading) {
+        [MBProgressHUD showHUDAddedTo: [UIApplication sharedApplication].keyWindow animated:YES];
+    }
+    
+    [_sessionManager GET:self.fullUrl parameters:[self buildParameters:parameters] progress:nil success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
+        
+        if (krSuccess) {
+            if (self.config.enableLoading) {
+                [MBProgressHUD hideHUDForView: [UIApplication sharedApplication].keyWindow animated:YES];
+            }
+            
+            krSuccess(responseObject);
+            
+            [self printResponse:responseObject url:url paramters:parameters];
+            
+        }
+    }            failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+        if (self.config.enableLoading) {
+            [MBProgressHUD hideHUDForView: [UIApplication sharedApplication].keyWindow animated:YES];
+        }
+        if (krFailure) {
+            [[UIApplication sharedApplication].keyWindow ap_makeToast:@"网络请求出错"];
+            krFailure(error);
+        }
+    }];
+}
+
+/**
+ 打印返回值
+ 
+ @param response 返回
+ @param url 请求url
+ */
+- (void)printResponse:(id)response url:(NSString *)url paramters:(NSDictionary *)paramters{
+    if (self.config.printUrl) {
+        NSString *queryStr = [NSURL kr_queryStringFromDictionry:paramters];
+        NSString *fullUrl = [NSString stringWithFormat:@"%@?%@", url, queryStr];
+        NSLog(@"返回值 %@", response);
+    }
+}
 
 @end

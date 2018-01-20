@@ -44,11 +44,29 @@ typedef void(^KRFailure)(NSError *error);
 @property (nonatomic, copy) NSString *apiUrl;
 
 /**
+ 请求全url
+ */
+@property (nonatomic, copy) NSString *fullUrl;
+
+/**
+ 初始化方法
+ 
+ @return KRBaseApi
+ */
++ (instancetype)api;
+
+/**
  公共参数
  */
 @property (nonatomic, copy) NSDictionary<NSString *, NSString *> *publicParams;
 
-+ (instancetype)api;
+/**
+ 构建参数
+
+ @param parameters 参数
+ @return 最终参数
+ */
+- (NSDictionary *)buildParameters:(NSDictionary *)parameters;
 
 /**
  http get 请求

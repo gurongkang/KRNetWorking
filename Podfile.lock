@@ -14,13 +14,19 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - APToast (1.2)
+  - MBProgressHUD (1.1.0)
 
 DEPENDENCIES:
   - AFNetworking
+  - APToast
+  - MBProgressHUD (~> 1.1.0)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  APToast: 60b5ab8b485deba0dfc97f3897273962de080e6a
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
 
-PODFILE CHECKSUM: 70a0519ba3219744aace6e0c3c20ba1799a9b381
+PODFILE CHECKSUM: b65b7710b6327ae097f08d7045c1274659e18366
 
 COCOAPODS: 1.2.0

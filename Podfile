@@ -9,4 +9,6 @@ inhibit_all_warnings!
 target 'KRNetWorking' do
     xcodeproj 'KRNetWorking'
     pod 'AFNetworking'
+    pod 'MBProgressHUD', '~> 1.1.0'
+    pod 'APToast'
 end
